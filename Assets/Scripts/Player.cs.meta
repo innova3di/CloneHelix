@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 5e92e96349ed15345b9f501f372aeba5
+timeCreated: 1520996010
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RestartButton: {instanceID: 0}
+  - Quit: {instanceID: 0}
+  - textscore: {instanceID: 0}
+  - blood: {fileID: 1065107913718872, guid: 4e40ebee8e383af4784bb4ef3aeb6d05, type: 2}
+  - jumpSound: {instanceID: 0}
+  - destSound: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
