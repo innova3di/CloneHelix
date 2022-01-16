@@ -3,66 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+namespace CloneHelix
+{
+	public class Player : MonoBehaviour {
 	
-	public Button RestartButton;
-	public Button Quit;
-	public Text textscore;
-	public Text bestScore;
-	private int score;
-	//public AudioSource ;
-	public AudioClip jumpSound;
-	public AudioClip destSound;
+		public Button RestartButton;
+		public Button Quit;
+		public Text textscore;
+		public Text bestScoreText;
+		public Vector3 currentPositon;
+		public int score;
+		private int bestScore;
+		//public AudioSource ;
+		public AudioClip jumpSound;
+		public AudioClip destSound;
 
-
-	void Start (){
-
-		Time.timeScale = 1.5f;
-		score = 0;
-		bestScore.text = "Best: " + PlayerPrefs.GetFloat ("Best");
-
-	}
-	
-	// ball when Toche redBar
-	void OnTriggerEnter(Collider other) 
-	{
-		if(other.gameObject.name == "Enmy")
+		private Rigidbody rb;
+		void Start ()
 		{
-			RestartButton.gameObject.SetActive (true);
-			Quit.gameObject.SetActive (true);
-			Time.timeScale = 0f;
+			rb = GetComponent<Rigidbody>();
+			currentPositon = transform.position;
+			score = 0;
+		}
+
+        private void Update()
+        {
+			ScoreManager();
+			if (GameManager.instance.startGame == true)
+            {
+				rb.isKinematic = false;
+            }
+            else
+            {
+				rb.isKinematic = true;
+			}
+        }
+
+		public void ScoreManager()
+        {
+			textscore.text = score.ToString();
+			bestScore = PlayerPrefs.GetInt("Best", score);
+			bestScoreText.text = bestScore.ToString();
+		}
+
+        // ball when Toche redBar
+        void OnTriggerEnter(Collider other) 
+		{
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                RestartButton.gameObject.SetActive(true);
+                Quit.gameObject.SetActive(true);
+                GameManager.instance.startGame = false;
+            }
+		}
+
+		void OnTriggerExit(Collider other) 
+		{
+			if(other.gameObject.name == "Circle")
+			{
+				HealthBar.health -= 1f;
+				AudioSource audio = GetComponent<AudioSource>();
+				if (GameManager.instance.soundOn == true) audio.PlayOneShot (destSound);
+				if (RestartButton.gameObject.activeInHierarchy == false)
+				{
+					score++;
+				}
+				if (score > bestScore) PlayerPrefs.SetInt("Best", score);
+				textscore.text = "" + score.ToString();
+                other.gameObject.SetActive(false);
+			}
+
+			//if (other.gameObject.CompareTag("ScoreBar"))
+			//{
+			//	if (RestartButton.gameObject.activeInHierarchy == false)
+			//	{
+			//		score++;
+			//	}
+			//	if (score > bestScore) PlayerPrefs.SetInt("Best", score);
+			//	textscore.text = "" + score.ToString();
+			//	other.gameObject.SetActive(false);
+			//}
 
 		}
 
-		if(other.gameObject.name == "ScoreBar") 
+		void OnCollisionEnter(Collision collision)
 		{
-			score = score + 1;
-			if(PlayerPrefs.GetFloat ("Best") < score)
-			   PlayerPrefs.SetFloat ("Best", score);
-			
-			textscore.text = "" + score.ToString();
-			other.gameObject.SetActive (false);
+			if (collision.collider.name=="Bar")
+			{
+				AudioSource audio = GetComponent<AudioSource> ();
+				if(GameManager.instance.soundOn == true) audio.PlayOneShot (jumpSound);
+			}
 		}
 	}
 
-	void OnTriggerExit(Collider other) 
-	{
-		if(other.gameObject.name == "Circle")
-		{
-			HealthBar.health -= 1f;
-			AudioSource audio = GetComponent<AudioSource> ();
-			audio.PlayOneShot (destSound);
-			other.gameObject.SetActive (false);
-
-		}
-	}
-
-	void OnCollisionEnter(Collision collision)
-	{
-		if (collision.collider.name=="Bar")
-		{
-			AudioSource audio = GetComponent<AudioSource> ();
-			audio.PlayOneShot (jumpSound);
-		}
-	}
 }

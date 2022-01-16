@@ -4,11 +4,21 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enmy
   - ScoreBar
   - Circle
   - Bar
   - EndLevel
+  - TextEn
+  - TextRu
+  - Toggle
+  - StartPanel
+  - Canvas
+  - AxeCircle
+  - PlayerSpawn
+  - Target
+  - Enemy
+  - CircleParent
+  - NextLevelButton
   layers:
   - Default
   - TransparentFX

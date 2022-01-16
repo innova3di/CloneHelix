@@ -4,22 +4,19 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-
-public class EndLevel : MonoBehaviour {
-	
-	public Button nextLevel;
-	public string levelName;
-
-
-	void OnTriggerEnter(Collider other)
+namespace CloneHelix
+{
+	public class EndLevel : MonoBehaviour 
+	{
+		void OnTriggerEnter(Collider other)
 		{
-		
-		    if(other.gameObject.name == "Player")
-		{
-			nextLevel.gameObject.SetActive (true);
-
-
-			//SceneManager.LoadScene (levelName);
+			if(other.gameObject.name == "Player")
+			{
+				GameManager.instance.nextLevelButton.SetActive(true);
+				GameManager.instance.level++;
+				GameManager.instance.startGame = false;
+				PlayerPrefs.SetInt("LevelAdd", GameManager.instance.level);
+			}
 		}
 	}
 }

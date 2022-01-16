@@ -1,52 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(MeshRenderer))]
 
-public class Rotate : MonoBehaviour 
+namespace CloneHelix
 {
+	[RequireComponent(typeof(MeshRenderer))]
 
-	#region ROTATE
-	public float _sensitivity = 5f;
-	private Vector3 _mouseReference;
-	private Vector3 _mouseOffset;
-	private Vector3 _rotation = Vector3.zero;
-	private bool _isRotating;
-
-
-	#endregion
-
-	void Update()
+	public class Rotate : MonoBehaviour 
 	{
-		if(_isRotating)
+
+		#region ROTATE
+		public float _sensitivity = 5f;
+		private Vector3 _mouseReference;
+		private Vector3 _mouseOffset;
+		private Vector3 _rotation = Vector3.zero;
+		private bool _isRotating;
+
+
+		#endregion
+
+		void Update()
 		{
-			// offset
-			_mouseOffset = (Input.mousePosition - _mouseReference);
+			if(_isRotating && GameManager.instance.startGame == true)
+			{
+				// offset
+				_mouseOffset = (Input.mousePosition - _mouseReference);
 
-			// apply rotation
-			_rotation.y = -(_mouseOffset.x + _mouseOffset.y) * _sensitivity;
+				// apply rotation
+				_rotation.y = -(_mouseOffset.x + _mouseOffset.y) * _sensitivity;
 
-			// rotate
-			gameObject.transform.Rotate(_rotation);
+				// rotate
+				gameObject.transform.Rotate(_rotation);
 
-			// store new mouse position
+				// store new mouse position
+				_mouseReference = Input.mousePosition;
+			}
+		}
+
+		void OnMouseDown()
+		{
+			// rotating flag
+			_isRotating = true;
+
+			// store mouse position
 			_mouseReference = Input.mousePosition;
 		}
+
+		void OnMouseUp()
+		{
+			// rotating flag
+			_isRotating = false;
+		}
+
 	}
-
-	void OnMouseDown()
-	{
-		// rotating flag
-		_isRotating = true;
-
-		// store mouse position
-		_mouseReference = Input.mousePosition;
-	}
-
-	void OnMouseUp()
-	{
-		// rotating flag
-		_isRotating = false;
-	}
-
 }
