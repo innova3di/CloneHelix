@@ -8,10 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/HelixAxeL1.unity
     guid: 2618f50da7fa99e4a9360f06a8e0e597
-  - enabled: 0
-    path: Assets/Scene/HelixAxeL2.unity
-    guid: 2b792dfeed755664983624a330bd3ae5
-  - enabled: 0
-    path: Assets/Scene/HelixAxeL3.unity
-    guid: 27d4b64ec5b372f4491ac1ecc6d53965
   m_configObjects: {}

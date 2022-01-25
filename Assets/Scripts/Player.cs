@@ -7,13 +7,13 @@ namespace CloneHelix
 {
 	public class Player : MonoBehaviour {
 	
-		public Button RestartButton;
-		public Button Quit;
+		public GameObject gameOverPanel;
+		//public Button Quit;
 		public Text textscore;
 		public Text bestScoreText;
 		public Vector3 currentPositon;
 		public int score;
-		private int bestScore;
+		public int bestScore;
 		//public AudioSource ;
 		public AudioClip jumpSound;
 		public AudioClip destSound;
@@ -21,6 +21,7 @@ namespace CloneHelix
 		private Rigidbody rb;
 		void Start ()
 		{
+			//PlayerPrefs.SetInt("Best", 0);
 			rb = GetComponent<Rigidbody>();
 			currentPositon = transform.position;
 			score = 0;
@@ -51,11 +52,10 @@ namespace CloneHelix
 		{
             if (other.gameObject.CompareTag("Enemy"))
             {
-                RestartButton.gameObject.SetActive(true);
-                Quit.gameObject.SetActive(true);
+                gameOverPanel.SetActive(true);
                 GameManager.instance.startGame = false;
             }
-		}
+        }
 
 		void OnTriggerExit(Collider other) 
 		{
@@ -64,26 +64,14 @@ namespace CloneHelix
 				HealthBar.health -= 1f;
 				AudioSource audio = GetComponent<AudioSource>();
 				if (GameManager.instance.soundOn == true) audio.PlayOneShot (destSound);
-				if (RestartButton.gameObject.activeInHierarchy == false)
+				if (gameOverPanel.activeInHierarchy == false)
 				{
 					score++;
 				}
 				if (score > bestScore) PlayerPrefs.SetInt("Best", score);
 				textscore.text = "" + score.ToString();
                 other.gameObject.SetActive(false);
-			}
-
-			//if (other.gameObject.CompareTag("ScoreBar"))
-			//{
-			//	if (RestartButton.gameObject.activeInHierarchy == false)
-			//	{
-			//		score++;
-			//	}
-			//	if (score > bestScore) PlayerPrefs.SetInt("Best", score);
-			//	textscore.text = "" + score.ToString();
-			//	other.gameObject.SetActive(false);
-			//}
-
+            }
 		}
 
 		void OnCollisionEnter(Collision collision)

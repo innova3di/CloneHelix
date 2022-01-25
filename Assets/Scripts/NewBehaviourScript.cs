@@ -5,13 +5,13 @@ namespace CloneHelix
 {
 	public class NewBehaviourScript : MonoBehaviour {
 		public Transform target;
-		public float distance = 3.0f;
-		public float height = 3.0f;
-		public float damping = 5.0f;
+		public float distance;
+		public float height;
+		public float damping;
 		public bool smoothRotation = true;
 		public bool followBehind = true;
 		public float rotationDamping = 10.0f;
-		private Vector3 currentPosition;
+		public Vector3 currentPosition;
 
         private void Start()
         {
@@ -35,8 +35,13 @@ namespace CloneHelix
 
 			if(GameManager.instance.startPanel.activeInHierarchy == true)
             {
-				transform.position = currentPosition;
+				SetTransformPosition();
             }
+		}
+
+		public void SetTransformPosition()
+        {
+			transform.position = currentPosition;
 		}
 	}
 

@@ -10,7 +10,7 @@ namespace CloneHelix
 	{
 		void OnTriggerEnter(Collider other)
 		{
-			if(other.gameObject.name == "Player")
+			if(other.gameObject.name == "Player" && GameManager.instance.startGame == true)
 			{
 				GameManager.instance.nextLevelButton.SetActive(true);
 				GameManager.instance.level++;
